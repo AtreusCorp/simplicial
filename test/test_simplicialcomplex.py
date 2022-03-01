@@ -59,7 +59,6 @@ class SimplicialComplexTests(unittest.TestCase):
                         # we're part of something we're not a face of
                         raise Exception('Simplex {s} is part of {p} but not a face of it'.format(s = s,
                                                                                                  p = p))
-                
 
     def test0simplex( self ):
         """Test the creation of a single 0-simplex complex."""
@@ -79,7 +78,7 @@ class SimplicialComplexTests(unittest.TestCase):
         c = SimplicialComplex()
         c.addSimplex(id = 1)
         c.addSimplex(id = 2)
-        c.addSimplex(id = 12, fs = [ 1, 2 ]) 
+        c.addSimplex(id = 12, fs = [ 1, 2 ])
         six.assertCountEqual(self, c.simplices(), [ 1, 2, 12 ])
         self.assertEqual(c.orderOf(1), 0)
         self.assertEqual(c.orderOf(2), 0)
@@ -93,7 +92,7 @@ class SimplicialComplexTests(unittest.TestCase):
         six.assertCountEqual(self, c.faces(12), [ 1, 2 ])
         self.assertEqual(c.maxOrder(), 1)
         self.assertEqual(c.eulerCharacteristic(), 1)
-        
+
     def test2simplex( self ):
         """Test the creation of a single 2-simplex complex."""
         c = SimplicialComplex()
@@ -228,6 +227,22 @@ class SimplicialComplexTests(unittest.TestCase):
         self.assertIn(n, c.simplices())
         self.assertEqual(len(c.simplices()), 1)
 
+    def testBarycentric( self ):
+        """Test the creation of a single 0-simplex complex."""
+        cplx = SimplicialComplex()
+        top_deg_simplex = cplx.addSimplexWithBasis(list(range(4)))
+        self.assertEqual(
+            cplx.simplices(),
+            [0, 1, 2, 3, '1d2', '1d3', '1d4', '1d6', '1d7', '1d9', '2d5',
+             '2d8', '2d10', '2d11', '3d1'])
+        cplx.barycentricSubdivide(simplex=top_deg_simplex)
+        self.assertEqual(
+            cplx.simplices(),
+            [0, 1, 2, 3, '0d12', '1d2', '1d3', '1d4', '1d6', '1d7', '1d9',
+             '1d14', '1d15', '1d17', '1d21', '2d5', '2d8', '2d10', '2d11',
+             '2d16', '2d18', '2d19', '2d22', '2d23', '2d25', '3d13', '3d20',
+             '3d24', '3d26'])
+
     def testCopy( self ):
         """Test copying simplices from one complex to another."""
         c = SimplicialComplex()
@@ -244,8 +259,8 @@ class SimplicialComplexTests(unittest.TestCase):
         d.addSimplex(id = 5)
         d.addSimplex(id = 6)
         d.addSimplex(id = 45, fs = [ 4, 5 ]) 
-        d.addSimplex(id = 46, fs = [ 4, 6 ]) 
-        d.addSimplex(id = 56, fs = [ 5, 6 ]) 
+        d.addSimplex(id = 46, fs = [ 4, 6 ])
+        d.addSimplex(id = 56, fs = [ 5, 6 ])
         d.addSimplex(id = 456, fs = [ 45, 46, 56 ])
 
         c.addSimplicesFrom(d)

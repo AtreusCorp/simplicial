@@ -36,7 +36,7 @@ class EulerIntegrator(object):
     the :meth:`metric` method generates different metrics.
 
      The metric should be a non-negative number. The metric assignment
-     has tro be monotone with respect to simplex order: the metric associated
+     has to be monotone with respect to simplex order: the metric associated
      with a simplex `s` should be greater than or equal to the values associated
      with all simplices in the closure of `s`, i.e., all faces of `s`, or faces
      of those faces, and so forth. This isn't (currently) checked, but the
